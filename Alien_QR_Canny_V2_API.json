@@ -1,0 +1,282 @@
+{
+  "3": {
+    "inputs": {
+      "unet_name": "dreamshaper_STAT_SD15_$stat-b-1-h-512-w-512_00001_.engine",
+      "model_type": "SD15"
+    },
+    "class_type": "TensorRTLoader",
+    "_meta": {
+      "title": "TensorRT Loader"
+    }
+  },
+  "5": {
+    "inputs": {
+      "text": "(((dmt))) ((alien)) god in the most beautiful spiritual fractal of heavan, (rainbow), gold and black",
+      "clip": [
+        "24",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "6": {
+    "inputs": {
+      "text": "(nude), (naked), (((nipples))), bare chest, (blurry), ((ugly)), (((scary)))",
+      "clip": [
+        "24",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "7": {
+    "inputs": {
+      "seed": 613764760507684,
+      "steps": 3,
+      "cfg": 1,
+      "sampler_name": "lcm",
+      "scheduler": "normal",
+      "denoise": 0.8,
+      "model": [
+        "3",
+        0
+      ],
+      "positive": [
+        "39",
+        0
+      ],
+      "negative": [
+        "39",
+        1
+      ],
+      "latent_image": [
+        "99",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "11": {
+    "inputs": {
+      "vae_name": "taesd"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE"
+    }
+  },
+  "13": {
+    "inputs": {
+      "backend": "inductor",
+      "fullgraph": true,
+      "mode": "reduce-overhead",
+      "compile_encoder": true,
+      "compile_decoder": true,
+      "vae": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "TorchCompileLoadVAE",
+    "_meta": {
+      "title": "TorchCompileLoadVAE"
+    }
+  },
+  "14": {
+    "inputs": {
+      "samples": [
+        "7",
+        0
+      ],
+      "vae": [
+        "13",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "24": {
+    "inputs": {
+      "ckpt_name": "dreamshaper_8.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "Load Checkpoint"
+    }
+  },
+  "32": {
+    "inputs": {
+      "backend": "inductor",
+      "fullgraph": false,
+      "mode": "reduce-overhead",
+      "controlnet": [
+        "33",
+        0
+      ]
+    },
+    "class_type": "TorchCompileLoadControlNet",
+    "_meta": {
+      "title": "TorchCompileLoadControlNet"
+    }
+  },
+  "33": {
+    "inputs": {
+      "control_net_name": "qrCodeMonster_v20.safetensors"
+    },
+    "class_type": "ControlNetLoader",
+    "_meta": {
+      "title": "Load ControlNet Model"
+    }
+  },
+  "39": {
+    "inputs": {
+      "positive": [
+        "5",
+        0
+      ],
+      "negative": [
+        "6",
+        0
+      ],
+      "cnet_stack": [
+        "42",
+        0
+      ]
+    },
+    "class_type": "Apply ControlNet Stack",
+    "_meta": {
+      "title": "Apply ControlNet Stack"
+    }
+  },
+  "41": {
+    "inputs": {
+      "strength": 0.8,
+      "start_percent": 0,
+      "end_percent": 1,
+      "control_net": [
+        "32",
+        0
+      ],
+      "image": [
+        "92",
+        0
+      ]
+    },
+    "class_type": "Control Net Stacker",
+    "_meta": {
+      "title": "Control Net Stacker"
+    }
+  },
+  "42": {
+    "inputs": {
+      "strength": 0.5,
+      "start_percent": 0,
+      "end_percent": 0.7000000000000001,
+      "control_net": [
+        "45",
+        0
+      ],
+      "image": [
+        "62",
+        0
+      ],
+      "cnet_stack": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "Control Net Stacker",
+    "_meta": {
+      "title": "Control Net Stacker"
+    }
+  },
+  "43": {
+    "inputs": {
+      "control_net_name": "control_v11p_sd15_lineart.pth"
+    },
+    "class_type": "ControlNetLoader",
+    "_meta": {
+      "title": "Load ControlNet Model"
+    }
+  },
+  "45": {
+    "inputs": {
+      "backend": "inductor",
+      "fullgraph": false,
+      "mode": "reduce-overhead",
+      "controlnet": [
+        "43",
+        0
+      ]
+    },
+    "class_type": "TorchCompileLoadControlNet",
+    "_meta": {
+      "title": "TorchCompileLoadControlNet"
+    }
+  },
+  "62": {
+    "inputs": {
+      "low_threshold": 64,
+      "high_threshold": 250,
+      "resolution": 512,
+      "image": [
+        "92",
+        0
+      ]
+    },
+    "class_type": "PyraCannyPreprocessor",
+    "_meta": {
+      "title": "PyraCanny"
+    }
+  },
+  "92": {
+    "inputs": {
+      "image": "Snapinsta.app_431821180_1528425434366420_7589721785786144438_n_1080.jpg",
+      "upload": "image"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image"
+    }
+  },
+  "94": {
+    "inputs": {
+      "images": [
+        "14",
+        0
+      ]
+    },
+    "class_type": "PreviewImage",
+    "_meta": {
+      "title": "Preview Image"
+    }
+  },
+  "99": {
+    "inputs": {
+      "pixels": [
+        "92",
+        0
+      ],
+      "vae": [
+        "13",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode"
+    }
+  }
+}
