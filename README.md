@@ -14,6 +14,7 @@ These allow for significant increase in speed when compared with depth extractio
 
 This is a simple but robust approach to vid2vid, specifically when the prompt evokes a similar shape as the webcam input (ie. a person shaped input works well with a somewhat humanoid prompt).
 
+Changing the text prompt changes the style.
 
 Due to the use of QR ControlNet the quality will increase significantly when the subject is well lit and in strong contrast with a dark bacground.
 Alternatively, using RTX Broadcast software allows for extremely fast background removal for even better contrast.  This background removal technique also provides for a more defined person shape as the Canny preprocess wont have lines of the background intersecting the subject's shape.  (This can be done natively in Comfy as well using "a-person-mask" generator or SAM2, but these techniques slow down the workflow and are thus not implemented in this version).
